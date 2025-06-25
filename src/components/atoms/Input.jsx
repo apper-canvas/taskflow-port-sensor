@@ -14,11 +14,8 @@ const Input = ({
   className = '',
   ...props 
 }) => {
-  const [focused, setFocused] = useState(false);
+const [focused, setFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const hasValue = value && value.length > 0;
-  const showFloatingLabel = focused || hasValue;
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -26,8 +23,15 @@ const Input = ({
 
   const inputType = type === 'password' && showPassword ? 'text' : type;
 
-  return (
-    <div className={`relative ${className}`}>
+return (
+    <div className={`${className}`}>
+      {label && (
+        <label className={`block text-sm font-medium mb-2 ${error ? 'text-red-500' : focused ? 'text-primary' : 'text-surface-700'}`}>
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </label>
+      )}
+      
       <div className="relative">
         {icon && (
           <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-surface-400">
@@ -42,6 +46,7 @@ const Input = ({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           disabled={disabled}
+          placeholder={placeholder}
           className={`
             w-full px-4 py-3 border-2 rounded-lg transition-all duration-200 
             focus:outline-none focus:ring-0 bg-white
@@ -54,28 +59,9 @@ const Input = ({
                 : 'border-surface-300 hover:border-surface-400'
             }
             ${disabled ? 'bg-surface-50 text-surface-500 cursor-not-allowed' : ''}
-            ${showFloatingLabel ? 'pt-6 pb-2' : ''}
           `}
-          placeholder={showFloatingLabel ? '' : placeholder}
           {...props}
         />
-
-        {label && (
-          <label
-            className={`
-              absolute left-4 transition-all duration-200 pointer-events-none
-              ${icon ? 'left-12' : 'left-4'}
-              ${showFloatingLabel
-                ? 'top-2 text-xs text-surface-600 font-medium'
-                : 'top-1/2 transform -translate-y-1/2 text-surface-500'
-              }
-              ${error ? 'text-red-500' : focused ? 'text-primary' : ''}
-            `}
-          >
-            {label}
-            {required && <span className="text-red-500 ml-1">*</span>}
-          </label>
-        )}
 
         {type === 'password' && (
           <button
