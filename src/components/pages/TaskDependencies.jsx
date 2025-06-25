@@ -49,11 +49,20 @@ const [showCreateForm, setShowCreateForm] = useState(false);
 const getTaskById = (taskId) => {
     if (!taskId) return null;
     
-    // Handle both object and primitive ID inputs
+    // Handle both object and primitive ID inputs more robustly
     let searchId;
-    if (typeof taskId === 'object' && taskId.Id) {
-      searchId = taskId.Id.toString();
+    if (typeof taskId === 'object') {
+      // Handle lookup objects from Apper backend
+      if (taskId.Id !== undefined) {
+        searchId = taskId.Id.toString();
+      } else if (taskId.id !== undefined) {
+        searchId = taskId.id.toString();
+      } else {
+        // If it's an object but doesn't have Id property, return null
+        return null;
+      }
     } else {
+      // Handle primitive values (string, number)
       searchId = taskId.toString();
     }
     

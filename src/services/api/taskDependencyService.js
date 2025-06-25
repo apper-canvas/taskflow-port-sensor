@@ -1,4 +1,5 @@
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import React from "react";
 
 export const taskDependencyService = {
   async getAll() {
@@ -28,13 +29,15 @@ export const taskDependencyService = {
 
       if (!response.data || response.data.length === 0) {
         return [];
-      }
+}
 
       return response.data.map(dependency => ({
         Id: dependency.Id,
         name: dependency.Name || '',
-        dependentTaskId: dependency.dependentTaskId ? dependency.dependentTaskId.toString() : '',
-        precedingTaskId: dependency.precedingTaskId ? dependency.precedingTaskId.toString() : '',
+        dependentTaskId: dependency.dependentTaskId ? 
+          (typeof dependency.dependentTaskId === 'object' ? dependency.dependentTaskId.Id : dependency.dependentTaskId).toString() : '',
+        precedingTaskId: dependency.precedingTaskId ? 
+          (typeof dependency.precedingTaskId === 'object' ? dependency.precedingTaskId.Id : dependency.precedingTaskId).toString() : '',
         dependencyType: dependency.dependencyType || 'finish-to-start'
       }));
     } catch (error) {
@@ -72,13 +75,14 @@ export const taskDependencyService = {
       if (!response.data) {
         throw new Error('Task dependency not found');
       }
-
-      const dependency = response.data;
+const dependency = response.data;
       return {
         Id: dependency.Id,
         name: dependency.Name || '',
-        dependentTaskId: dependency.dependentTaskId ? dependency.dependentTaskId.toString() : '',
-        precedingTaskId: dependency.precedingTaskId ? dependency.precedingTaskId.toString() : '',
+        dependentTaskId: dependency.dependentTaskId ? 
+          (typeof dependency.dependentTaskId === 'object' ? dependency.dependentTaskId.Id : dependency.dependentTaskId).toString() : '',
+        precedingTaskId: dependency.precedingTaskId ? 
+          (typeof dependency.precedingTaskId === 'object' ? dependency.precedingTaskId.Id : dependency.precedingTaskId).toString() : '',
         dependencyType: dependency.dependencyType || 'finish-to-start'
       };
     } catch (error) {
@@ -93,9 +97,9 @@ export const taskDependencyService = {
       const apperClient = new ApperClient({
         apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
-      });
+});
 
-const params = {
+      const params = {
         records: [{
           Name: dependencyData.name || dependencyData.Name || `${dependencyData.dependentTaskId}-${dependencyData.precedingTaskId}`,
           dependentTaskId: parseInt(dependencyData.dependentTaskId, 10),
@@ -126,13 +130,15 @@ const params = {
           });
         }
 
-        if (successfulRecords.length > 0) {
+if (successfulRecords.length > 0) {
           const createdDependency = successfulRecords[0].data;
           return {
             Id: createdDependency.Id,
             name: createdDependency.Name || '',
-            dependentTaskId: createdDependency.dependentTaskId ? createdDependency.dependentTaskId.toString() : '',
-            precedingTaskId: createdDependency.precedingTaskId ? createdDependency.precedingTaskId.toString() : '',
+            dependentTaskId: createdDependency.dependentTaskId ? 
+              (typeof createdDependency.dependentTaskId === 'object' ? createdDependency.dependentTaskId.Id : createdDependency.dependentTaskId).toString() : '',
+            precedingTaskId: createdDependency.precedingTaskId ? 
+              (typeof createdDependency.precedingTaskId === 'object' ? createdDependency.precedingTaskId.Id : createdDependency.precedingTaskId).toString() : '',
             dependencyType: createdDependency.dependencyType || 'finish-to-start'
           };
         }
@@ -195,14 +201,15 @@ const params = {
             if (record.message) toast.error(record.message);
           });
         }
-
-        if (successfulUpdates.length > 0) {
+if (successfulUpdates.length > 0) {
           const updatedDependency = successfulUpdates[0].data;
           return {
             Id: updatedDependency.Id,
             name: updatedDependency.Name || '',
-            dependentTaskId: updatedDependency.dependentTaskId ? updatedDependency.dependentTaskId.toString() : '',
-            precedingTaskId: updatedDependency.precedingTaskId ? updatedDependency.precedingTaskId.toString() : '',
+            dependentTaskId: updatedDependency.dependentTaskId ? 
+              (typeof updatedDependency.dependentTaskId === 'object' ? updatedDependency.dependentTaskId.Id : updatedDependency.dependentTaskId).toString() : '',
+            precedingTaskId: updatedDependency.precedingTaskId ? 
+              (typeof updatedDependency.precedingTaskId === 'object' ? updatedDependency.precedingTaskId.Id : updatedDependency.precedingTaskId).toString() : '',
             dependencyType: updatedDependency.dependencyType || 'finish-to-start'
           };
         }
@@ -307,13 +314,15 @@ const params = {
 
       if (!response.data) {
         return [];
-      }
+}
 
       return response.data.map(dependency => ({
         Id: dependency.Id,
         name: dependency.Name || '',
-        dependentTaskId: dependency.dependentTaskId ? dependency.dependentTaskId.toString() : '',
-        precedingTaskId: dependency.precedingTaskId ? dependency.precedingTaskId.toString() : '',
+        dependentTaskId: dependency.dependentTaskId ? 
+          (typeof dependency.dependentTaskId === 'object' ? dependency.dependentTaskId.Id : dependency.dependentTaskId).toString() : '',
+        precedingTaskId: dependency.precedingTaskId ? 
+          (typeof dependency.precedingTaskId === 'object' ? dependency.precedingTaskId.Id : dependency.precedingTaskId).toString() : '',
         dependencyType: dependency.dependencyType || 'finish-to-start'
       }));
     } catch (error) {
@@ -355,13 +364,15 @@ const params = {
 
       if (!response.data) {
         return [];
-      }
+}
 
       return response.data.map(dependency => ({
         Id: dependency.Id,
         name: dependency.Name || '',
-        dependentTaskId: dependency.dependentTaskId ? dependency.dependentTaskId.toString() : '',
-        precedingTaskId: dependency.precedingTaskId ? dependency.precedingTaskId.toString() : '',
+        dependentTaskId: dependency.dependentTaskId ? 
+          (typeof dependency.dependentTaskId === 'object' ? dependency.dependentTaskId.Id : dependency.dependentTaskId).toString() : '',
+        precedingTaskId: dependency.precedingTaskId ? 
+          (typeof dependency.precedingTaskId === 'object' ? dependency.precedingTaskId.Id : dependency.precedingTaskId).toString() : '',
         dependencyType: dependency.dependencyType || 'finish-to-start'
       }));
     } catch (error) {
@@ -403,13 +414,15 @@ const params = {
 
       if (!response.data) {
         return [];
-      }
+}
 
       return response.data.map(dependency => ({
         Id: dependency.Id,
         name: dependency.Name || '',
-        dependentTaskId: dependency.dependentTaskId ? dependency.dependentTaskId.toString() : '',
-        precedingTaskId: dependency.precedingTaskId ? dependency.precedingTaskId.toString() : '',
+        dependentTaskId: dependency.dependentTaskId ? 
+          (typeof dependency.dependentTaskId === 'object' ? dependency.dependentTaskId.Id : dependency.dependentTaskId).toString() : '',
+        precedingTaskId: dependency.precedingTaskId ? 
+          (typeof dependency.precedingTaskId === 'object' ? dependency.precedingTaskId.Id : dependency.precedingTaskId).toString() : '',
         dependencyType: dependency.dependencyType || 'finish-to-start'
       }));
     } catch (error) {
