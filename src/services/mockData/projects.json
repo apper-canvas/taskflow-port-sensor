@@ -1,0 +1,37 @@
+[
+  {
+    "Id": 1,
+    "name": "Website Redesign",
+    "color": "#5B21B6",
+    "taskCount": 2,
+    "completedCount": 0
+  },
+  {
+    "Id": 2,
+    "name": "Backend API",
+    "color": "#059669",
+    "taskCount": 2,
+    "completedCount": 0
+  },
+  {
+    "Id": 3,
+    "name": "Team Management",
+    "color": "#DC2626",
+    "taskCount": 2,
+    "completedCount": 1
+  },
+  {
+    "Id": 4,
+    "name": "Market Research",
+    "color": "#7C3AED",
+    "taskCount": 1,
+    "completedCount": 1
+  },
+  {
+    "Id": 5,
+    "name": "Personal Development",
+    "color": "#F59E0B",
+    "taskCount": 0,
+    "completedCount": 0
+  }
+]

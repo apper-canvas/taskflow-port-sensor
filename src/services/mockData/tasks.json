@@ -1,0 +1,79 @@
+[
+  {
+    "Id": 1,
+    "title": "Design new landing page",
+    "description": "Create wireframes and mockups for the new product landing page with improved conversion focus",
+    "projectId": "1",
+    "priority": "high",
+    "status": "active",
+    "dueDate": "2024-12-20T09:00:00.000Z",
+    "createdAt": "2024-12-15T08:30:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 2,
+    "title": "Review pull requests",
+    "description": "Review and approve pending pull requests from the development team",
+    "projectId": "2",
+    "priority": "medium",
+    "status": "active",
+    "dueDate": "2024-12-19T17:00:00.000Z",
+    "createdAt": "2024-12-15T09:15:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 3,
+    "title": "Update project documentation",
+    "description": "Update README files and API documentation for the latest features",
+    "projectId": "2",
+    "priority": "low",
+    "status": "active",
+    "dueDate": "2024-12-22T15:00:00.000Z",
+    "createdAt": "2024-12-14T14:20:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 4,
+    "title": "Prepare quarterly presentation",
+    "description": "Create slides and talking points for Q4 performance review meeting",
+    "projectId": "3",
+    "priority": "high",
+    "status": "completed",
+    "dueDate": "2024-12-18T10:00:00.000Z",
+    "createdAt": "2024-12-10T11:00:00.000Z",
+    "completedAt": "2024-12-17T16:30:00.000Z"
+  },
+  {
+    "Id": 5,
+    "title": "Schedule team one-on-ones",
+    "description": "Book calendar time with each team member for monthly check-ins",
+    "projectId": "3",
+    "priority": "medium",
+    "status": "active",
+    "dueDate": "2024-12-21T12:00:00.000Z",
+    "createdAt": "2024-12-16T10:45:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 6,
+    "title": "Fix responsive layout issues",
+    "description": "Address mobile layout problems reported by QA team",
+    "projectId": "1",
+    "priority": "high",
+    "status": "active",
+    "dueDate": "2024-12-19T14:00:00.000Z",
+    "createdAt": "2024-12-16T13:20:00.000Z",
+    "completedAt": null
+  },
+  {
+    "Id": 7,
+    "title": "Research competitor features",
+    "description": "Analyze new features released by main competitors this quarter",
+    "projectId": "4",
+    "priority": "medium",
+    "status": "completed",
+    "dueDate": "2024-12-15T18:00:00.000Z",
+    "createdAt": "2024-12-12T09:30:00.000Z",
+    "completedAt": "2024-12-15T17:45:00.000Z"
+  }
+]
