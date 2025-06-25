@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Header from '@/components/organisms/Header';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
+import Input from '@/components/atoms/Input';
 import Select from '@/components/atoms/Select';
 import { taskService } from '@/services/api/taskService';
 import { taskDependencyService } from '@/services/api/taskDependencyService';
@@ -16,13 +17,13 @@ const TaskDependencies = () => {
   const [dependencies, setDependencies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showCreateForm, setShowCreateForm] = useState(false);
+const [showCreateForm, setShowCreateForm] = useState(false);
   const [newDependency, setNewDependency] = useState({
+    Name: '',
     dependentTaskId: '',
     precedingTaskId: '',
     dependencyType: 'finish-to-start'
   });
-
   useEffect(() => {
     loadData();
   }, []);
@@ -67,9 +68,10 @@ const TaskDependencies = () => {
     }
 
     try {
-      const createdDependency = await taskDependencyService.create(newDependency);
+const createdDependency = await taskDependencyService.create(newDependency);
       setDependencies(prev => [...prev, createdDependency]);
       setNewDependency({
+        Name: '',
         dependentTaskId: '',
         precedingTaskId: '',
         dependencyType: 'finish-to-start'
@@ -164,11 +166,18 @@ const TaskDependencies = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-lg shadow-sm border border-surface-200 p-6"
-          >
+>
             <h3 className="text-lg font-medium text-surface-900 mb-4">Create New Dependency</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Select
-                label="Dependent Task"
+            <div className="space-y-4">
+              <Input
+                label="Name"
+                value={newDependency.Name}
+                onChange={(e) => setNewDependency(prev => ({ ...prev, Name: e.target.value }))}
+                placeholder="Enter a descriptive name for this dependency"
+              />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Select
+                  label="Dependent Task"
                 value={newDependency.dependentTaskId}
                 onChange={(value) => setNewDependency(prev => ({ ...prev, dependentTaskId: value }))}
                 options={taskOptions}
@@ -185,8 +194,9 @@ const TaskDependencies = () => {
                 label="Dependency Type"
                 value={newDependency.dependencyType}
                 onChange={(value) => setNewDependency(prev => ({ ...prev, dependencyType: value }))}
-                options={dependencyTypeOptions}
-              />
+options={dependencyTypeOptions}
+                />
+              </div>
             </div>
             <div className="flex gap-3 mt-4">
               <Button
