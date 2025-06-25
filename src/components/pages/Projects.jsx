@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import TaskList from '@/components/organisms/TaskList';
-import TaskForm from '@/components/organisms/TaskForm';
-import SkeletonLoader from '@/components/molecules/SkeletonLoader';
-import ErrorState from '@/components/molecules/ErrorState';
-import EmptyState from '@/components/molecules/EmptyState';
-import { projectService } from '@/services/api/projectService';
-import { taskService } from '@/services/api/taskService';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import ProjectForm from "@/components/organisms/ProjectForm";
+import { projectService } from "@/services/api/projectService";
+import { taskService } from "@/services/api/taskService";
+import ApperIcon from "@/components/ApperIcon";
+import SkeletonLoader from "@/components/molecules/SkeletonLoader";
+import EmptyState from "@/components/molecules/EmptyState";
+import ErrorState from "@/components/molecules/ErrorState";
+import TaskForm from "@/components/organisms/TaskForm";
+import TaskList from "@/components/organisms/TaskList";
+import Button from "@/components/atoms/Button";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -17,10 +18,10 @@ const Projects = () => {
   const [projectTasks, setProjectTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tasksLoading, setTasksLoading] = useState(false);
-  const [error, setError] = useState(null);
+const [error, setError] = useState(null);
   const [showTaskForm, setShowTaskForm] = useState(false);
+  const [showProjectForm, setShowProjectForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
-
   useEffect(() => {
     loadProjects();
   }, []);
@@ -60,13 +61,24 @@ const Projects = () => {
     } finally {
       setTasksLoading(false);
     }
-  };
+};
 
   const handleProjectSelect = (project) => {
     setSelectedProject(project);
   };
+  const handleAddProject = () => {
+    setShowProjectForm(true);
+  };
 
-  const handleAddTask = () => {
+  const handleProjectSaved = (savedProject) => {
+    setProjects(prev => [savedProject, ...prev]);
+    // Select the new project if no project is currently selected
+    if (!selectedProject) {
+      setSelectedProject(savedProject);
+    }
+  };
+
+const handleAddTask = () => {
     setEditingTask(null);
     setShowTaskForm(true);
   };
@@ -146,12 +158,12 @@ const Projects = () => {
   }
 
   if (projects.length === 0) {
-    return (
+return (
       <EmptyState
         title="No projects found"
         description="Create your first project to organize your tasks"
         actionLabel="Create Project"
-        onAction={() => {/* TODO: Implement project creation */}}
+        onAction={handleAddProject}
         icon="Folder"
         className="h-full flex items-center justify-center"
       />
@@ -161,13 +173,19 @@ const Projects = () => {
   return (
     <div className="h-full flex">
       {/* Projects Sidebar */}
-      <div className="w-80 border-r border-surface-200 bg-surface-50 overflow-y-auto">
+<div className="w-80 border-r border-surface-200 bg-surface-50 overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-heading font-semibold text-surface-900">Projects</h2>
-            {/* TODO: Add create project button */}
+            <Button
+              variant="primary"
+              size="sm"
+              icon="Plus"
+              onClick={handleAddProject}
+            >
+              Add Project
+            </Button>
           </div>
-
           <div className="space-y-3">
             {projects.map((project, index) => (
               <motion.button
@@ -269,13 +287,19 @@ const Projects = () => {
           </>
         )}
       </div>
-
-      {/* Task Form Modal */}
+{/* Task Form Modal */}
       <TaskForm
         task={editingTask}
         isOpen={showTaskForm}
         onClose={() => setShowTaskForm(false)}
         onTaskSaved={handleTaskSaved}
+      />
+
+      {/* Project Form Modal */}
+      <ProjectForm
+        isOpen={showProjectForm}
+        onClose={() => setShowProjectForm(false)}
+onProjectSaved={handleProjectSaved}
       />
     </div>
   );
