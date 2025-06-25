@@ -125,10 +125,13 @@ function AppContent() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/callback" element={<Callback />} />
           <Route path="/error" element={<ErrorPage />} />
-          <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
+<Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
           <Route path="/" element={<Layout />}>
-            <Route index element={<routeArray[0].component />} />
+            {(() => {
+              const DefaultComponent = routeArray[0].component;
+              return <Route index element={<DefaultComponent />} />;
+            })()}
             {routeArray.map((route) => (
               <Route
                 key={route.id}
