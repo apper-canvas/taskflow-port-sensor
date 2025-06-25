@@ -9,7 +9,7 @@ export const taskService = {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       });
 
-      const params = {
+const params = {
         fields: [
           { field: { Name: "Name" } },
           { field: { Name: "title" } },
@@ -35,7 +35,7 @@ export const taskService = {
         return [];
       }
 
-      return response.data.map(task => ({
+return response.data.map(task => ({
         Id: task.Id,
         name: task.Name || '',
         title: task.title || '',
@@ -45,7 +45,8 @@ export const taskService = {
         status: task.status || 'active',
         dueDate: task.due_date || null,
         createdAt: task.created_at || null,
-        completedAt: task.completed_at || null
+        completedAt: task.completed_at || null,
+        parentTaskId: null // Subtask functionality placeholder
       }));
     } catch (error) {
       console.error("Error fetching tasks:", error);
@@ -89,7 +90,7 @@ export const taskService = {
       }
 
       const task = response.data;
-      return {
+return {
         Id: task.Id,
         name: task.Name || '',
         title: task.title || '',
@@ -99,7 +100,8 @@ export const taskService = {
         status: task.status || 'active',
         dueDate: task.due_date || null,
         createdAt: task.created_at || null,
-        completedAt: task.completed_at || null
+        completedAt: task.completed_at || null,
+        parentTaskId: null // Subtask functionality placeholder
       };
     } catch (error) {
       console.error(`Error fetching task with ID ${id}:`, error);
@@ -152,7 +154,7 @@ export const taskService = {
 
         if (successfulRecords.length > 0) {
           const createdTask = successfulRecords[0].data;
-          return {
+return {
             Id: createdTask.Id,
             name: createdTask.Name || '',
             title: createdTask.title || '',
@@ -162,7 +164,8 @@ export const taskService = {
             status: createdTask.status || 'active',
             dueDate: createdTask.due_date || null,
             createdAt: createdTask.created_at || null,
-            completedAt: createdTask.completed_at || null
+            completedAt: createdTask.completed_at || null,
+            parentTaskId: null // Subtask functionality placeholder
           };
         }
       }
@@ -241,7 +244,7 @@ export const taskService = {
 
         if (successfulUpdates.length > 0) {
           const updatedTask = successfulUpdates[0].data;
-          return {
+return {
             Id: updatedTask.Id,
             name: updatedTask.Name || '',
             title: updatedTask.title || '',
@@ -251,7 +254,8 @@ export const taskService = {
             status: updatedTask.status || 'active',
             dueDate: updatedTask.due_date || null,
             createdAt: updatedTask.created_at || null,
-            completedAt: updatedTask.completed_at || null
+            completedAt: updatedTask.completed_at || null,
+            parentTaskId: null // Subtask functionality placeholder
           };
         }
       }
@@ -344,7 +348,7 @@ export const taskService = {
         return [];
       }
 
-      return response.data.map(task => ({
+return response.data.map(task => ({
         Id: task.Id,
         name: task.Name || '',
         title: task.title || '',
@@ -354,7 +358,8 @@ export const taskService = {
         status: task.status || 'active',
         dueDate: task.due_date || null,
         createdAt: task.created_at || null,
-        completedAt: task.completed_at || null
+        completedAt: task.completed_at || null,
+        parentTaskId: null // Subtask functionality placeholder
       }));
     } catch (error) {
       console.error("Error fetching project tasks:", error);
@@ -402,7 +407,7 @@ export const taskService = {
         return [];
       }
 
-      return response.data.map(task => ({
+return response.data.map(task => ({
         Id: task.Id,
         name: task.Name || '',
         title: task.title || '',
@@ -412,7 +417,8 @@ export const taskService = {
         status: task.status || 'active',
         dueDate: task.due_date || null,
         createdAt: task.created_at || null,
-        completedAt: task.completed_at || null
+        completedAt: task.completed_at || null,
+        parentTaskId: null // Subtask functionality placeholder
       }));
     } catch (error) {
       console.error("Error fetching tasks by status:", error);
@@ -481,7 +487,7 @@ export const taskService = {
         return [];
       }
 
-      return response.data.map(task => ({
+return response.data.map(task => ({
         Id: task.Id,
         name: task.Name || '',
         title: task.title || '',
@@ -491,7 +497,8 @@ export const taskService = {
         status: task.status || 'active',
         dueDate: task.due_date || null,
         createdAt: task.created_at || null,
-        completedAt: task.completed_at || null
+        completedAt: task.completed_at || null,
+        parentTaskId: null // Subtask functionality placeholder
       }));
     } catch (error) {
       console.error("Error fetching today's tasks:", error);
@@ -557,7 +564,7 @@ export const taskService = {
         return [];
       }
 
-      return response.data.map(task => ({
+return response.data.map(task => ({
         Id: task.Id,
         name: task.Name || '',
         title: task.title || '',
@@ -567,7 +574,8 @@ export const taskService = {
         status: task.status || 'active',
         dueDate: task.due_date || null,
         createdAt: task.created_at || null,
-        completedAt: task.completed_at || null
+        completedAt: task.completed_at || null,
+        parentTaskId: null // Subtask functionality placeholder
       }));
     } catch (error) {
       console.error("Error fetching upcoming tasks:", error);
@@ -640,7 +648,7 @@ export const taskService = {
           });
         }
 
-        return successfulUpdates.map(result => ({
+return successfulUpdates.map(result => ({
           Id: result.data.Id,
           name: result.data.Name || '',
           title: result.data.title || '',
@@ -650,7 +658,8 @@ export const taskService = {
           status: result.data.status || 'active',
           dueDate: result.data.due_date || null,
           createdAt: result.data.created_at || null,
-          completedAt: result.data.completed_at || null
+          completedAt: result.data.completed_at || null,
+          parentTaskId: null // Subtask functionality placeholder
         }));
       }
 
@@ -698,6 +707,54 @@ export const taskService = {
       return false;
     } catch (error) {
       console.error("Error bulk deleting tasks:", error);
+      throw error;
+    }
+},
+
+  // Subtask management methods
+  async createSubtask(parentTaskId, subtaskData) {
+    try {
+      const taskData = {
+        ...subtaskData,
+        // Note: parentTaskId would be implemented when database schema supports it
+        // For now, we track subtasks through naming convention or custom fields
+        title: `${subtaskData.title} (Subtask)`,
+        description: `${subtaskData.description}\n\nParent Task ID: ${parentTaskId}`
+      };
+      
+      return await this.create(taskData);
+    } catch (error) {
+      console.error("Error creating subtask:", error);
+      throw error;
+    }
+  },
+
+  async getSubtasks(parentTaskId) {
+    try {
+      // This is a placeholder implementation
+      // In a real scenario, we would filter by parent_task_id field
+      const allTasks = await this.getAll();
+      return allTasks.filter(task => 
+        task.description && task.description.includes(`Parent Task ID: ${parentTaskId}`)
+      );
+    } catch (error) {
+      console.error("Error fetching subtasks:", error);
+      return [];
+    }
+  },
+
+  async updateTaskHierarchy(taskId, parentTaskId) {
+    try {
+      // Placeholder for updating parent-child relationships
+      // Would update parent_task_id field when available in schema
+      const task = await this.getById(taskId);
+      const updatedDescription = task.description + `\n\nParent Task ID: ${parentTaskId}`;
+      
+      return await this.update(taskId, { 
+        description: updatedDescription 
+      });
+    } catch (error) {
+      console.error("Error updating task hierarchy:", error);
       throw error;
     }
   }

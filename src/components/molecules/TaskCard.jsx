@@ -14,6 +14,9 @@ const TaskCard = ({
   selectable = false,
   selected = false,
   onSelectionChange,
+  subtasks = [],
+  dependencies = [],
+  isSubtask = false,
   className = '' 
 }) => {
   const isCompleted = task.status === 'completed';
@@ -44,7 +47,7 @@ const handleDelete = () => {
     }
   };
 
-  return (
+return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 20 }}
@@ -55,6 +58,7 @@ const handleDelete = () => {
         bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 
         border-l-4 ${isCompleted ? 'opacity-75' : ''}
         ${selected ? 'ring-2 ring-primary' : ''}
+        ${isSubtask ? 'ml-6 border-l-2' : ''}
         ${className}
       `}
       style={{ borderLeftColor: priorityColors[task.priority] }}
@@ -101,7 +105,7 @@ const handleDelete = () => {
                   </p>
                 )}
 
-                <div className="flex items-center gap-3 mt-3">
+<div className="flex items-center gap-3 mt-3">
                   {project && (
                     <div className="flex items-center gap-1">
                       <div 
@@ -115,6 +119,27 @@ const handleDelete = () => {
                   <Badge variant={task.priority} size="sm">
                     {task.priority}
                   </Badge>
+
+                  {subtasks && subtasks.length > 0 && (
+                    <div className="flex items-center gap-1 text-xs text-surface-500">
+                      <ApperIcon name="GitBranch" className="w-3 h-3" />
+                      <span>{subtasks.length} subtask{subtasks.length !== 1 ? 's' : ''}</span>
+                    </div>
+                  )}
+
+                  {dependencies && dependencies.length > 0 && (
+                    <div className="flex items-center gap-1 text-xs text-surface-500">
+                      <ApperIcon name="Link" className="w-3 h-3" />
+                      <span>{dependencies.length} dep{dependencies.length !== 1 ? 's' : ''}</span>
+                    </div>
+                  )}
+
+                  {isSubtask && (
+                    <div className="flex items-center gap-1 text-xs text-blue-600">
+                      <ApperIcon name="CornerDownRight" className="w-3 h-3" />
+                      <span>Subtask</span>
+                    </div>
+                  )}
 
                   {task.dueDate && (
                     <div className={`flex items-center gap-1 text-xs ${

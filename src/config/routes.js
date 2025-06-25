@@ -4,6 +4,7 @@ import Upcoming from '@/components/pages/Upcoming';
 import Projects from '@/components/pages/Projects';
 import Completed from '@/components/pages/Completed';
 import Dashboard from '@/components/pages/Dashboard';
+import TaskDependencies from '@/components/pages/TaskDependencies';
 
 export const routes = {
   allTasks: {
@@ -41,12 +42,19 @@ export const routes = {
     icon: 'CheckCircle',
     component: Completed
   },
-  dashboard: {
+dashboard: {
     id: 'dashboard',
     label: 'Dashboard',
     path: '/dashboard',
     icon: 'BarChart3',
     component: Dashboard
+  },
+  dependencies: {
+    id: 'dependencies',
+    label: 'Dependencies',
+    path: '/dependencies',
+    icon: 'Link',
+    component: TaskDependencies
   }
 };
 

@@ -15,38 +15,44 @@ const TaskForm = ({
   onClose, 
   onTaskSaved 
 }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: '',
     description: '',
     projectId: '',
     priority: 'medium',
-    dueDate: ''
+    dueDate: '',
+    parentTaskId: ''
   });
-  const [projects, setProjects] = useState([]);
+const [projects, setProjects] = useState([]);
+  const [availableTasks, setAvailableTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [projectsLoading, setProjectsLoading] = useState(false);
+  const [tasksLoading, setTasksLoading] = useState(false);
 
   const isEditMode = task !== null;
 
-  useEffect(() => {
+useEffect(() => {
     if (isOpen) {
       loadProjects();
+      loadAvailableTasks();
       if (isEditMode) {
-        setFormData({
+setFormData({
           title: task.title || '',
           description: task.description || '',
           projectId: task.projectId || '',
           priority: task.priority || 'medium',
-          dueDate: task.dueDate ? format(new Date(task.dueDate), 'yyyy-MM-dd') : ''
+          dueDate: task.dueDate ? format(new Date(task.dueDate), 'yyyy-MM-dd') : '',
+          parentTaskId: task.parentTaskId || ''
         });
       } else {
-        setFormData({
+setFormData({
           title: '',
           description: '',
           projectId: '',
           priority: 'medium',
-          dueDate: ''
+          dueDate: '',
+          parentTaskId: ''
         });
       }
       setErrors({});
@@ -62,6 +68,22 @@ const TaskForm = ({
       toast.error('Failed to load projects');
     } finally {
       setProjectsLoading(false);
+    }
+};
+
+  const loadAvailableTasks = async () => {
+    setTasksLoading(true);
+    try {
+      const result = await taskService.getAll();
+      // Filter out the current task being edited to prevent self-reference
+      const filteredTasks = isEditMode 
+        ? result.filter(t => t.Id !== task.Id)
+        : result;
+      setAvailableTasks(filteredTasks);
+    } catch (error) {
+      console.error('Failed to load tasks:', error);
+    } finally {
+      setTasksLoading(false);
     }
   };
 
@@ -142,6 +164,11 @@ const TaskForm = ({
   const projectOptions = projects.map(project => ({
     value: project.Id.toString(),
     label: project.name
+}));
+
+  const taskOptions = availableTasks.map(task => ({
+    value: task.Id.toString(),
+    label: task.title
   }));
 
   if (!isOpen) return null;
@@ -218,6 +245,15 @@ const TaskForm = ({
               onChange={(value) => handleInputChange('priority', value)}
               options={priorityOptions}
               disabled={loading}
+/>
+
+            <Select
+              label="Parent Task (Optional)"
+              value={formData.parentTaskId}
+              onChange={(value) => handleInputChange('parentTaskId', value)}
+              options={taskOptions}
+              placeholder={tasksLoading ? 'Loading tasks...' : 'Select parent task (for subtasks)'}
+              disabled={loading || tasksLoading}
             />
 
             <Input
@@ -244,7 +280,7 @@ const TaskForm = ({
                 loading={loading}
                 className="flex-1"
               >
-                {isEditMode ? 'Update Task' : 'Create Task'}
+{isEditMode ? 'Update Task' : (formData.parentTaskId ? 'Create Subtask' : 'Create Task')}
               </Button>
             </div>
           </form>
