@@ -54,11 +54,11 @@ const Select = ({
             }
             ${disabled ? 'bg-surface-50 text-surface-500 cursor-not-allowed' : ''}
           `}
-        >
+>
           <span className={selectedOption ? 'text-surface-900' : 'text-surface-500'}>
-            {selectedOption ? selectedOption.label : (!showFloatingLabel ? placeholder : '')}
+            {selectedOption ? selectedOption.label : (!showFloatingLabel && !label ? placeholder : '')}
           </span>
-          <ApperIcon 
+          <ApperIcon
             name={isOpen ? 'ChevronUp' : 'ChevronDown'} 
             className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-surface-400" 
           />
