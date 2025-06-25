@@ -46,8 +46,11 @@ const [showCreateForm, setShowCreateForm] = useState(false);
     }
   };
 
-  const getTaskById = (taskId) => {
-    return tasks.find(task => task.Id.toString() === taskId);
+const getTaskById = (taskId) => {
+    if (!taskId) return null;
+    // Convert both IDs to strings for consistent comparison
+    const searchId = taskId.toString();
+    return tasks.find(task => task.Id.toString() === searchId);
   };
 
   const handleCreateDependency = async () => {
@@ -244,16 +247,16 @@ return (
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0">
-                        <div className="mb-3">
+<div className="mb-3">
                           <h4 className="font-semibold text-surface-900 text-lg truncate">
-                            {dependency.name || 'Unnamed Dependency'}
+                            {dependency.name || dependency.Name || 'Unnamed Dependency'}
                           </h4>
                           <p className="text-sm text-surface-500">Dependency Relationship</p>
                         </div>
                         <div className="flex items-center gap-4">
-                          <div className="flex-1 min-w-0">
+<div className="flex-1 min-w-0">
                             <h5 className="font-medium text-surface-900 truncate">
-                              {dependentTask?.title || 'Unknown Task'}
+                              {dependentTask?.title || dependentTask?.name || `Task ID: ${dependency.dependentTaskId}`}
                             </h5>
                             <p className="text-sm text-surface-600">Dependent Task</p>
                           </div>
@@ -265,9 +268,9 @@ return (
                             </span>
                           </div>
                           
-                          <div className="flex-1 min-w-0">
+<div className="flex-1 min-w-0">
                             <h5 className="font-medium text-surface-900 truncate">
-                              {precedingTask?.title || 'Unknown Task'}
+                              {precedingTask?.title || precedingTask?.name || `Task ID: ${dependency.precedingTaskId}`}
                             </h5>
                             <p className="text-sm text-surface-600">Preceding Task</p>
                           </div>
