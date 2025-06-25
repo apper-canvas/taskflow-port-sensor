@@ -48,8 +48,15 @@ const [showCreateForm, setShowCreateForm] = useState(false);
 
 const getTaskById = (taskId) => {
     if (!taskId) return null;
-    // Convert both IDs to strings for consistent comparison
-    const searchId = taskId.toString();
+    
+    // Handle both object and primitive ID inputs
+    let searchId;
+    if (typeof taskId === 'object' && taskId.Id) {
+      searchId = taskId.Id.toString();
+    } else {
+      searchId = taskId.toString();
+    }
+    
     return tasks.find(task => task.Id.toString() === searchId);
   };
 
@@ -256,7 +263,7 @@ return (
                         <div className="flex items-center gap-4">
 <div className="flex-1 min-w-0">
                             <h5 className="font-medium text-surface-900 truncate">
-                              {dependentTask?.title || dependentTask?.name || `Task ID: ${dependency.dependentTaskId}`}
+                              {dependentTask?.title || dependentTask?.name || "Unknown Task"}
                             </h5>
                             <p className="text-sm text-surface-600">Dependent Task</p>
                           </div>
@@ -270,7 +277,7 @@ return (
                           
 <div className="flex-1 min-w-0">
                             <h5 className="font-medium text-surface-900 truncate">
-                              {precedingTask?.title || precedingTask?.name || `Task ID: ${dependency.precedingTaskId}`}
+                              {precedingTask?.title || precedingTask?.name || "Unknown Task"}
                             </h5>
                             <p className="text-sm text-surface-600">Preceding Task</p>
                           </div>
