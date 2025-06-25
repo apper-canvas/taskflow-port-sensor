@@ -1,9 +1,9 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { format, isToday, isPast } from 'date-fns';
-import ApperIcon from '@/components/ApperIcon';
-import Badge from '@/components/atoms/Badge';
-import Checkbox from '@/components/atoms/Checkbox';
+import React from "react";
+import { motion } from "framer-motion";
+import { format, isPast, isToday } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Checkbox from "@/components/atoms/Checkbox";
+import Badge from "@/components/atoms/Badge";
 
 const TaskCard = ({ 
   task, 
@@ -11,6 +11,9 @@ const TaskCard = ({
   onToggleComplete, 
   onEdit, 
   onDelete,
+  selectable = false,
+  selected = false,
+  onSelectionChange,
   className = '' 
 }) => {
   const isCompleted = task.status === 'completed';
@@ -31,8 +34,14 @@ const TaskCard = ({
     onEdit(task);
   };
 
-  const handleDelete = () => {
+const handleDelete = () => {
     onDelete(task.Id);
+  };
+
+  const handleSelectionChange = (checked) => {
+    if (onSelectionChange) {
+      onSelectionChange(task.Id, checked);
+    }
   };
 
   return (
@@ -45,12 +54,23 @@ const TaskCard = ({
       className={`
         bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 
         border-l-4 ${isCompleted ? 'opacity-75' : ''}
+        ${selected ? 'ring-2 ring-primary' : ''}
         ${className}
       `}
       style={{ borderLeftColor: priorityColors[task.priority] }}
     >
-      <div className="p-4">
+<div className="p-4">
         <div className="flex items-start gap-3">
+          {selectable && (
+            <div className="flex-shrink-0 mt-1">
+              <Checkbox
+                checked={selected}
+                onChange={handleSelectionChange}
+                size="md"
+              />
+            </div>
+          )}
+          
           <div className="flex-shrink-0 mt-1">
             <Checkbox
               checked={isCompleted}
@@ -58,7 +78,6 @@ const TaskCard = ({
               size="md"
             />
           </div>
-
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">

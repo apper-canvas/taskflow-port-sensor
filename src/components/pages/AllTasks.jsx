@@ -153,9 +153,41 @@ const AllTasks = () => {
       } catch (error) {
         toast.error('Failed to delete task');
       }
+}
+  };
+
+  const handleBulkUpdate = async (updates) => {
+    try {
+      const updatedTasks = await taskService.bulkUpdate(updates);
+      
+      // Update tasks in state
+      setTasks(prev => 
+        prev.map(task => {
+          const updatedTask = updatedTasks.find(updated => updated.Id === task.Id);
+          return updatedTask || task;
+        })
+      );
+      
+      const completedCount = updates.filter(update => update.status === 'completed').length;
+      if (completedCount > 0) {
+        toast.success(`${completedCount} task${completedCount !== 1 ? 's' : ''} marked as complete! 🎉`);
+      }
+    } catch (error) {
+      console.error('Failed to bulk update tasks:', error);
+      throw error;
     }
   };
 
+  const handleBulkDelete = async (taskIds) => {
+    try {
+      await taskService.bulkDelete(taskIds);
+      setTasks(prev => prev.filter(task => !taskIds.includes(task.Id)));
+      toast.success(`${taskIds.length} task${taskIds.length !== 1 ? 's' : ''} deleted successfully`);
+    } catch (error) {
+      console.error('Failed to bulk delete tasks:', error);
+      throw error;
+    }
+  };
   return (
     <div className="h-full flex flex-col">
       <Header
@@ -181,7 +213,7 @@ const AllTasks = () => {
           />
         </div>
 
-        {/* Task List */}
+{/* Task List */}
         <TaskList
           tasks={filteredTasks}
           projects={projects}
@@ -191,6 +223,8 @@ const AllTasks = () => {
           onTaskDelete={handleTaskDelete}
           onTaskEdit={handleEditTask}
           onAddTask={handleAddTask}
+          onBulkUpdate={handleBulkUpdate}
+          onBulkDelete={handleBulkDelete}
           emptyStateConfig={{
             title: 'No tasks found',
             description: 'Create your first task to get started with TaskFlow',
