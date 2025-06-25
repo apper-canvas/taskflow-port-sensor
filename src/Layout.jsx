@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import ApperIcon from '@/components/ApperIcon';
 import { routeArray } from '@/config/routes';
+import { AuthContext } from './App';
 
+const LogoutButton = () => {
+  const { logout } = useContext(AuthContext);
+  
+  return (
+    <button
+      onClick={logout}
+      className="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 text-red-600 hover:bg-red-50 hover:text-red-700 mt-4 border-t border-surface-200 pt-4"
+    >
+      <ApperIcon name="LogOut" className="w-5 h-5 mr-3" />
+      Logout
+    </button>
+  );
+};
 const Layout = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -43,8 +57,11 @@ const Layout = () => {
               >
                 <ApperIcon name={route.icon} className="w-5 h-5 mr-3" />
                 {route.label}
-              </NavLink>
+</NavLink>
             ))}
+            
+            {/* Logout Button */}
+            <LogoutButton />
           </nav>
         </div>
       </aside>
@@ -110,8 +127,11 @@ const Layout = () => {
                       >
                         <ApperIcon name={route.icon} className="w-5 h-5 mr-3" />
                         {route.label}
-                      </NavLink>
+</NavLink>
                     ))}
+                    
+                    {/* Mobile Logout Button */}
+                    <LogoutButton />
                   </div>
                 </div>
               </motion.nav>
