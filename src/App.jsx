@@ -1,20 +1,19 @@
+import "@/index.css";
 import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import { Provider, useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { store } from "./store/store";
-import { clearUser, setUser } from "./store/userSlice";
-import Login from "@/components/pages/Login";
-import Signup from "@/components/pages/Signup";
-import Callback from "@/components/pages/Callback";
-import ErrorPage from "@/components/pages/ErrorPage";
-import ErrorPage from "@/components/pages/ErrorPage";
-import ResetPassword from "@/components/pages/ResetPassword";
-import PromptPassword from "@/components/pages/PromptPassword";
 import Layout from "@/Layout";
-import "@/index.css";
 import { routeArray } from "@/config/routes";
+import Signup from "@/components/pages/Signup";
 import NotFound from "@/components/pages/NotFound";
+import Callback from "@/components/pages/Callback";
+import ResetPassword from "@/components/pages/ResetPassword";
+import ErrorPage from "@/components/pages/ErrorPage";
+import PromptPassword from "@/components/pages/PromptPassword";
+import Login from "@/components/pages/Login";
+import { clearUser, setUser } from "@/store/userSlice";
+import { store } from "@/store/store";
 // Create auth context
 export const AuthContext = createContext(null);
 
