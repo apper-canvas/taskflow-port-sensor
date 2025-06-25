@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { motion } from 'framer-motion';
-import Header from '@/components/organisms/Header';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
-import Select from '@/components/atoms/Select';
-import { taskService } from '@/services/api/taskService';
-import { taskDependencyService } from '@/services/api/taskDependencyService';
-import SkeletonLoader from '@/components/molecules/SkeletonLoader';
-import EmptyState from '@/components/molecules/EmptyState';
-import ErrorState from '@/components/molecules/ErrorState';
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { taskDependencyService } from "@/services/api/taskDependencyService";
+import { taskService } from "@/services/api/taskService";
+import ApperIcon from "@/components/ApperIcon";
+import SkeletonLoader from "@/components/molecules/SkeletonLoader";
+import EmptyState from "@/components/molecules/EmptyState";
+import ErrorState from "@/components/molecules/ErrorState";
+import Header from "@/components/organisms/Header";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Input from "@/components/atoms/Input";
 
 const TaskDependencies = () => {
   const [tasks, setTasks] = useState([]);
@@ -234,7 +234,7 @@ options={dependencyTypeOptions}
                 const dependentTask = getTaskById(dependency.dependentTaskId);
                 const precedingTask = getTaskById(dependency.precedingTaskId);
                 
-                return (
+return (
                   <motion.div
                     key={dependency.Id}
                     initial={{ opacity: 0, y: 20 }}
@@ -244,11 +244,17 @@ options={dependencyTypeOptions}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1 min-w-0">
+                        <div className="mb-3">
+                          <h4 className="font-semibold text-surface-900 text-lg truncate">
+                            {dependency.name || 'Unnamed Dependency'}
+                          </h4>
+                          <p className="text-sm text-surface-500">Dependency Relationship</p>
+                        </div>
                         <div className="flex items-center gap-4">
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-medium text-surface-900 truncate">
+                            <h5 className="font-medium text-surface-900 truncate">
                               {dependentTask?.title || 'Unknown Task'}
-                            </h4>
+                            </h5>
                             <p className="text-sm text-surface-600">Dependent Task</p>
                           </div>
                           
@@ -260,9 +266,9 @@ options={dependencyTypeOptions}
                           </div>
                           
                           <div className="flex-1 min-w-0">
-                            <h4 className="font-medium text-surface-900 truncate">
+                            <h5 className="font-medium text-surface-900 truncate">
                               {precedingTask?.title || 'Unknown Task'}
-                            </h4>
+                            </h5>
                             <p className="text-sm text-surface-600">Preceding Task</p>
                           </div>
                         </div>

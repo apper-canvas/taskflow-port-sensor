@@ -95,9 +95,9 @@ export const taskDependencyService = {
         apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
       });
 
-      const params = {
+const params = {
         records: [{
-          Name: `${dependencyData.dependentTaskId}-${dependencyData.precedingTaskId}`,
+          Name: dependencyData.name || dependencyData.Name || `${dependencyData.dependentTaskId}-${dependencyData.precedingTaskId}`,
           dependentTaskId: parseInt(dependencyData.dependentTaskId, 10),
           precedingTaskId: parseInt(dependencyData.precedingTaskId, 10),
           dependencyType: dependencyData.dependencyType || 'finish-to-start'
